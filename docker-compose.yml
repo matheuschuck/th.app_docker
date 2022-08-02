@@ -4,7 +4,7 @@ services:
     build:
       args: 
         user: user
-        uid: 1000
+        uid: S-1-5-21-41059321-2708555032-851686773-1001
       context: ./
       dockerfile: Dockerfile
     image: app_php
@@ -29,6 +29,20 @@ services:
       - ./db:/var/lib/postgresql/data
     networks:
       - app
+  
+  app_db_mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
   app_server:
     image: nginx:alpine
     container_name: app_server 
