@@ -1,0 +1,10 @@
+-> Commands:
+wmic useraccount
+
+docker built -t <nome.conteiner> . (ponto indiga a raiz da posta onde está o dockerfile)
+
+docker run -p <porta>:<porta> -d <nome_imagem>
+
+docker exec -it <nome_conteiner>
+
+docker compose up
