@@ -1,44 +1,48 @@
 version: "3.9"
 services:  
-  app_php:
+  web_php:
     build:
-      args:
-        user: mateus
-        uid: 1000
       context: ./
       dockerfile: Dockerfile
-    image: app_php
-    container_name: app_php
+    image: web_php
+    container_name: web_php
     working_dir: /var/www/
     ports:
       - 9000:9000
     volumes:
       - ./www:/var/www
     networks:
-      - app
-
-  app_db:
+      - web 
+  web_pgsql:
     image: postgres:14.2-alpine
-    hostname: app_db
-    container_name: app_db
+    hostname: web_pgsql 
+    container_name: web_pgsql 
     environment:
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       POSTGRES_USER: $POSTGRES_USER
     ports:
       - 5432:5432
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - ./db/pgsql/:/var/lib/postgresql/data
     networks:
-      - app
-  adminer:
-    image: adminer
-    restart: always
+      - web
+  web_mysql:
+    image: mysql
+    hostname: web_mysql 
+    container_name: web_mysql 
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_PASSWORD
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
     ports:
-      - 8080:8080
-
-  app_server:
+      - 3306:3306
+    volumes:
+      - ./db/mysql/:/var/lib/mysql
+    networks:
+      - web
+  web_server:
     image: nginx:alpine
-    container_name: app_server 
+    container_name: web_server 
     working_dir: /var/www
     ports:
       - 80:80
@@ -49,7 +53,7 @@ services:
       - ./server/sites/:/etc/nginx/sites-available/
       - ./server/sites/:/etc/nginx/sites-enabled/
     networks:
-      - app
+      - web 
 networks:
-  app:
+  web:
     driver: bridge
