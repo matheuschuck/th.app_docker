@@ -1,0 +1,6 @@
+Arquivo de controle de versão.
+Registros de modificações.
+
+UPDATES 
+
+versão 0.0.1 -> Atualizado arquivos base, removido args user no dockerfile na tentativa de criar o conteiner.
