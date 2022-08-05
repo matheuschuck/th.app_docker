@@ -5,6 +5,6 @@ docker built -t <nome.conteiner> . (ponto indiga a raiz da posta onde está o do
 
 docker run -p <porta>:<porta> -d <nome_imagem>
 
-docker exec -it <nome_conteiner>
+docker exec -it <nome_conteiner> sh
 
 docker compose up
